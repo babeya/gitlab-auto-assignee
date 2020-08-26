@@ -1,0 +1,17 @@
+{
+  "name": "gitlab-autoreviewer",
+  "version": "1.0.0",
+  "description": "Auto asign gitlab mr based on avaiblable reviewer",
+  "main": "index.js",
+  "repository": "https://github.com/babeya/gitlab-autoreviewer.git",
+  "author": "Arthur BABEY <git@ababey.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@types/node": "^14.6.0",
+    "tsc": "^1.20150623.0"
+  }
+}
