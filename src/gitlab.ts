@@ -27,7 +27,7 @@ const getRandomApprover = (
   const rdIndex = Math.floor(Math.random() * approvers.length);
 
   return [
-    rdIndex,
+    approvers[rdIndex].id,
     ...getRandomApprover([...approvers].splice(rdIndex, 1), nbApprover - 1),
   ];
 };
@@ -51,5 +51,5 @@ export const getEligibleApproversFromRules = (rules: ApprovalRule[]) =>
       );
     }
 
-    return acc.concat(selectedApprover);
+    return [...acc, ...selectedApprover];
   }, []); // TODO: filter to avoid duplication of element
