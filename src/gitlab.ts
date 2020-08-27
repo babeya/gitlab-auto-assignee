@@ -14,7 +14,7 @@ type ApprovalRule = {
 };
 
 const getMrApprovalRulesPath = (projectId: string, mrId: string) =>
-  `/projects/${projectId}/merge_requests/${mrId}`;
+  `/projects/${projectId}/merge_requests/${mrId}/approval_rules`;
 
 const getRandomApprover = (
   approvers: Approver[],
