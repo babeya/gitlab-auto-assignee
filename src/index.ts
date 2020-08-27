@@ -1,34 +1,16 @@
 const fs = require("fs");
 
-import { get } from "./utils";
+import { getMrApprovalRules, getEligibleApproversFromRules } from "./gitlab";
 
 // 1 - Get and parse the event
 const stdinBuffer = fs.readFileSync(0);
 const gitLabEvent = JSON.parse(stdinBuffer);
 
-const TOKEN = "Xzd4VGHD5Mye5EdW3mgZ";
 const MR_EVENT = ["merge_request"];
-const API_URL = "http://localhost/api/";
 
 // 4 - Get MergeRequest reviewer
 // 5 - Find and select them ramdomly
 // 6 - Assign merge request
-
-function getApprovalRule(projectId, mrIid, callback?: any) {
-  get(
-    API_URL +
-      "projects/" +
-      projectId +
-      "/merge_requests/" +
-      mrIid +
-      "/approval_rules?private_token=" +
-      TOKEN,
-    function (data) {
-      fs.writeFileSync("/tmp/toto.txt", data);
-      callback && callback(data);
-    }
-  );
-}
 
 /*
 function setMergeRequestAsignee(projectId, mrIid, callback) {
@@ -51,7 +33,13 @@ var projectId = gitLabEvent.project.id;
 var mrIid = gitLabEvent.object_attributes.iid;
 
 // 3 - Check if the repos has a tag enabling auto assignment
-getApprovalRule(projectId, mrIid);
+getMrApprovalRules(projectId, mrIid, (body: any) => {
+  if (!body || !body.length) {
+    return; // Error or no data -> nothing to do // TODO: Maybe add a few log for debugging
+  }
+
+  fs.writeFileSync("/tmp/toto.txt", getEligibleApproversFromRules(body));
+});
 
 // TODO : find a way to keep the script running
 setTimeout(() => {}, 1000);
