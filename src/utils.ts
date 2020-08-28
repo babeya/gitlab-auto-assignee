@@ -9,21 +9,27 @@ const getFullApiUrl = (path: string) =>
 const requestCallback = (callback) => (err, _, body) => {
   try {
     if (err) {
-      debug(err);
+      debug(err.message || err.toString());
     }
-    callback(JSON.parse(body));
+    callback(body);
+  } catch (err) {
+    debug(err.message || err.toString());
   }
-  catch (err) {
-    debug(err.toString());
-  }  
 };
 
 export const get = (path: string, callback: any) => {
-  request.get(getFullApiUrl(path), requestCallback(callback));
+  request.get(
+    { url: getFullApiUrl(path), json: true },
+    requestCallback(callback)
+  );
 };
 
 // TODO: generics ?
 
 export const put = (path: string, payload: any, callback: any) => {
-  request.put(getFullApiUrl(path), payload, requestCallback(callback));
+  request.put(
+    { url: getFullApiUrl(path), json: true },
+    payload,
+    requestCallback(callback)
+  );
 };
