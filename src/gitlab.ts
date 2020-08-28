@@ -1,4 +1,5 @@
-import { get } from "./utils";
+import { get, put } from "./utils";
+import debug from "./debug";
 
 type Approver = {
   id: number;
@@ -13,8 +14,16 @@ type ApprovalRule = {
   approvals_required: number;
 };
 
-const getMrApprovalRulesPath = (projectId: string, mrId: string) =>
-  `/projects/${projectId}/merge_requests/${mrId}/approval_rules`;
+type MrPathParams = {
+  projectId: number;
+  mrIid: number;
+};
+
+const getMrPath = ({ projectId, mrIid }: MrPathParams) =>
+  `/projects/${projectId}/merge_requests/${mrIid}`;
+
+const getMrApprovalRulesPath = (params: MrPathParams) =>
+  `${getMrPath(params)}/approval_rules`;
 
 const getRandomApprover = (
   approvers: Approver[],
@@ -33,11 +42,10 @@ const getRandomApprover = (
 };
 
 export const getMrApprovalRules = (
-  projectId: string,
-  mrId: string,
+  params: MrPathParams,
   callback: (body?: ApprovalRule[]) => void
 ) => {
-  get(getMrApprovalRulesPath(projectId, mrId), callback);
+  get(getMrApprovalRulesPath(params), callback);
 };
 
 export const getEligibleApproversFromRules = (rules: ApprovalRule[]) =>
@@ -53,3 +61,14 @@ export const getEligibleApproversFromRules = (rules: ApprovalRule[]) =>
 
     return [...acc, ...selectedApprover];
   }, []); // TODO: filter to avoid duplication of element
+
+type SetAsigneeParams = {
+  assignees: number[];
+} & MrPathParams;
+
+export const setMergeRequestAsignee = (
+  { assignees, ...rest }: SetAsigneeParams,
+  callback
+) => {
+  put(getMrPath(rest), { assignee_ids: assignees }, callback);
+};
