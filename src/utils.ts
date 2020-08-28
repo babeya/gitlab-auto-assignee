@@ -19,17 +19,16 @@ const requestCallback = (callback) => (err, _, body) => {
 
 export const get = (path: string, callback: any) => {
   request.get(
-    { url: getFullApiUrl(path), json: true },
+    { uri: getFullApiUrl(path), json: true },
     requestCallback(callback)
   );
 };
 
 // TODO: generics ?
 
-export const put = (path: string, payload: any, callback: any) => {
+export const put = (path: string, body: any, callback: any) => {
   request.put(
-    { url: getFullApiUrl(path), json: true },
-    payload,
+    { url: getFullApiUrl(path), json: true, body },
     requestCallback(callback)
   );
 };
