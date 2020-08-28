@@ -42,6 +42,3 @@ getMrApprovalRules({ projectId, mrIid }, (body) => {
     );
   }
 });
-
-// TODO : find a way to keep the script running
-setTimeout(() => {}, 1000);
