@@ -1,6 +1,8 @@
 const config = {
-  gitlabUrl: "http://10.0.2.15",
+  gitlabUrl: process.env.GITLAB_URL,
   token: "Xzd4VGHD5Mye5EdW3mgZ",
+  debug: false,
+  debugOuput: "",
 };
 
 export default config;

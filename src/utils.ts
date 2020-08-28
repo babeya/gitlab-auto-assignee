@@ -1,6 +1,6 @@
 const request = require("request");
 
-import config from "./config";
+import config from "../config";
 import debug from "./debug";
 
 const getFullApiUrl = (path: string) =>

@@ -9,7 +9,7 @@
   "private": false,
   "scripts": {
     "build-typescript": "tsc",
-    "package": "pkg ./dist/index.js --targets node10-linux-x64 --output ./bin/autorevierwer",
+    "package": "pkg ./dist/src/index.js --targets linux --output ./bin/autoreviewer",
     "build": "yarn build-typescript; yarn package"
   },
   "dependencies": {
