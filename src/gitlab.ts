@@ -1,5 +1,4 @@
 import { get, put } from "./utils";
-import debug from "./debug";
 
 type Approver = {
   id: number;

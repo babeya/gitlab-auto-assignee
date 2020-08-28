@@ -5,20 +5,23 @@ import {
   getEligibleApproversFromRules,
   setMergeRequestAsignee,
 } from "./gitlab";
-import debug from "./debug";
 
 // 1 - Get and parse the event
 const stdinBuffer = fs.readFileSync(0);
 const gitLabEvent = JSON.parse(stdinBuffer);
 
 const MR_EVENT = ["merge_request"];
+const MR_OPEN_ACTION = "open";
 
 // 4 - Get MergeRequest reviewer
 // 5 - Find and select them ramdomly
 // 6 - Assign merge request
 
 // 2 - If it's not a new mergeRequest - Exit
-if (!MR_EVENT.includes(gitLabEvent.event_type)) {
+if (
+  !MR_EVENT.includes(gitLabEvent.event_type) &&
+  gitLabEvent.object_attributes.action !== MR_OPEN_ACTION
+) {
   process.exit();
 }
 
@@ -36,9 +39,7 @@ getMrApprovalRules({ projectId, mrIid }, (body) => {
   if (approvers && approvers.length) {
     setMergeRequestAsignee(
       { projectId, mrIid, assignees: approvers },
-      (body) => {
-        debug(body);
-      }
+      () => {}
     );
   }
 });
