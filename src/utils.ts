@@ -7,10 +7,15 @@ const getFullApiUrl = (path: string) =>
   `${config.gitlabUrl}/api/v4${path}?private_token=${config.token}`;
 
 const requestCallback = (callback) => (err, _, body) => {
-  if (err) {
-    debug(err);
+  try {
+    if (err) {
+      debug(err);
+    }
+    callback(JSON.parse(body));
   }
-  callback(body);
+  catch (err) {
+    debug(err.toString());
+  }  
 };
 
 export const get = (path: string, callback: any) => {
