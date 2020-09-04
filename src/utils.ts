@@ -32,3 +32,19 @@ export const put = (path: string, body: any, callback: any) => {
     requestCallback(callback)
   );
 };
+
+export const getRandomElementFromArray = <T>(
+  array: T[],
+  nbElement: number
+): T[] => {
+  if (!array || nbElement <= 0) {
+    return [];
+  }
+
+  const rdIndex = Math.floor(Math.random() * array.length);
+
+  return [
+    array[rdIndex],
+    ...getRandomElementFromArray([...array].splice(rdIndex, 1), nbElement - 1),
+  ];
+};

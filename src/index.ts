@@ -1,9 +1,11 @@
 const fs = require("fs");
 
+import config from "../config";
+
 import {
-  getMrApprovalRules,
-  getEligibleApproversFromRules,
-  setMergeRequestAsignee,
+  setMergeRequestAssignee,
+  getGroupMembers,
+  getRandomMembers,
 } from "./gitlab";
 
 // 1 - Get and parse the event
@@ -29,16 +31,16 @@ var projectId = gitLabEvent.project.id;
 var mrIid = gitLabEvent.object_attributes.iid;
 
 // 3 - Check if the repos has a tag enabling auto assignment
-getMrApprovalRules({ projectId, mrIid }, (body) => {
+getGroupMembers({ groupId: config.groupId }, (body) => {
   if (!body || !body.length) {
     return;
   }
 
-  const approvers = getEligibleApproversFromRules(body);
+  const members = getRandomMembers(body, 30);
 
-  if (approvers && approvers.length) {
-    setMergeRequestAsignee(
-      { projectId, mrIid, assignees: approvers },
+  if (members && members.length) {
+    setMergeRequestAssignee(
+      { projectId, mrIid, assignees: members.map(({ id }) => id) },
       () => {}
     );
   }
