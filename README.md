@@ -18,13 +18,21 @@ Auto asign randomly a reviewer to a merge request
 
 ### 3 - Update config
 
+Copy and fill config files :
+
+```bash
+cp rules.js.dist rules.js && cp config.js.dist config.js
+```
+
+
+
 -> gitlabUrl: url to the Gitlab api
 -> Token used by the application. You need to create a user with the correct writes (he need to have full access to the api and the write access on the repository you want him to work with)
 
 ### 4 - Bundle an excutable
 
 ```bash
-  yarn build
+yarn build
 ```
 
 ### 5 - Copy the hook inside the gitlab folder
