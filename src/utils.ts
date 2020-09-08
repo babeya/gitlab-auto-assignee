@@ -37,14 +37,17 @@ export const getRandomElementFromArray = <T>(
   array: T[],
   nbElement: number
 ): T[] => {
-  if (!array || nbElement <= 0) {
+  if (!array || !array.length || nbElement <= 0) {
     return [];
   }
 
   const rdIndex = Math.floor(Math.random() * array.length);
 
+  const nextArray = [...array];
+  nextArray.splice(rdIndex, 1);
+
   return [
     array[rdIndex],
-    ...getRandomElementFromArray([...array].splice(rdIndex, 1), nbElement - 1),
+    ...getRandomElementFromArray(nextArray, nbElement - 1),
   ];
 };

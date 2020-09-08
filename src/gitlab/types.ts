@@ -2,7 +2,7 @@ export type AccessLevel = 10 | 20 | 30 | 40 | 50;
 
 export type Member = {
   id: number;
-  username: string;
+ // username: string;
   access_level: AccessLevel;
 };
 

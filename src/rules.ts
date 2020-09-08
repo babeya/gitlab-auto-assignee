@@ -1,4 +1,6 @@
 import RulesConfig from "../rules";
+import { Member, AccessLevel } from "./gitlab/types";
+import { getRandomMembers } from "./gitlab";
 
 type MergeRequest = {
   target_branch: string;
@@ -6,25 +8,28 @@ type MergeRequest = {
 };
 
 type ProjectConfig = {
-  projectId: number;
+  projectIds: number[];
   rules: Rule[];
+  groupId: number;
 };
 
 type Rule = {
-  branch: string | "All";
-  groupId: number;
-  minLevel: number; // TODO use access level
+  branch: (string | "All")[];
+  minLevel: AccessLevel; // TODO use access level
   nbReviewers: number;
 };
 
 const ALL_BRANCH_ALIAS = "All";
 
-export const getRulesForMr = ({ project_id, target_branch }: MergeRequest): Rule[] => {
-  // Check if the project is supported
-  const { projects } = RulesConfig;
+export const getRulesForMr = ({
+  project_id,
+  target_branch,
+}: MergeRequest): Rule[] => {
+  // @ts-ignore
+  const projects: ProjectConfig[] = RulesConfig.projects;
 
-  const projectRules = projects.find(
-    ({ projectId }: ProjectConfig) => project_id === projectId
+  const projectRules = projects.find(({ projectIds }: ProjectConfig) =>
+    projectIds.includes(project_id)
   );
 
   if (!projectRules) {
@@ -33,7 +38,38 @@ export const getRulesForMr = ({ project_id, target_branch }: MergeRequest): Rule
 
   // Find rules matching the target branch
   return projectRules.rules.filter(
-    ({ targetBranch }) =>
-      targetBranch === ALL_BRANCH_ALIAS || targetBranch === target_branch
+    ({ branch }: Rule) =>
+      branch.includes(ALL_BRANCH_ALIAS) || branch.includes(target_branch)
   );
+};
+
+const applyRule = (
+  { minLevel, nbReviewers }: Rule,
+  members: Member[]
+): [Member[], Member[]] => {
+  let membersLeft = [...members];
+  const selectedMembers = getRandomMembers(members, minLevel, nbReviewers);
+
+  selectedMembers.forEach((selectedMember) => {
+    const indexToRemove = membersLeft.indexOf(selectedMember);
+    if (indexToRemove !== -1) {
+      membersLeft = membersLeft.splice(indexToRemove, 1);
+    }
+  });
+  console.log(selectedMembers);
+
+  return [selectedMembers, members];
+};
+
+export const applyRules = (rules: Rule[], members: Member[]): Member[] => {
+  let memberAcc = [...members];
+
+  rules.sort((a, b) => a.minLevel - b.minLevel);
+
+  return rules.reduce((acc, rule) => {
+    const [newSelectedMembers, membersLeft] = applyRule(rule, memberAcc);
+    memberAcc = membersLeft;
+
+    return acc.concat(newSelectedMembers);
+  }, []);
 };

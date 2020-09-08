@@ -23,12 +23,11 @@ export const getGroupMembers = (
 };
 
 const filterGroupMembers = (members: Member[], minLevel: AccessLevel) =>
-  members.filter(({ access_level }) => {
-    access_level >= minLevel;
-  });
+  members.filter(({ access_level }) => access_level >= minLevel);
 
 export const getRandomMembers = (
   members: Member[],
-  minLevel: AccessLevel
+  minLevel: AccessLevel,
+  nbMember: number
 ): Member[] =>
-  getRandomElementFromArray(filterGroupMembers(members, minLevel), 2);
+  getRandomElementFromArray(filterGroupMembers(members, minLevel), nbMember);
