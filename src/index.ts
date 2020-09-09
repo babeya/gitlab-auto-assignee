@@ -33,12 +33,18 @@ try {
   const rules = getRulesForMr({ project_id, target_branch });
 
   // 3 - Check if the repos has a tag enabling auto assignment
-  getGroupMembers({ groupId: config.groupId }, (body) => {
+  getGroupMembers({ groupId: rules.groupId }, (body) => {
     if (!body || !body.length) {
       return;
     }
 
-    const members = applyRules(rules, body);
+    // Filter out our user from the members to avoid assigning him
+    const members = applyRules(
+      rules.rules,
+      body.filter(({ id }) => {
+        id !== config.botId;
+      })
+    );
 
     if (members && members.length) {
       setMergeRequestAssignee(

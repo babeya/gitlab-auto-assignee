@@ -24,7 +24,7 @@ const ALL_BRANCH_ALIAS = "All";
 export const getRulesForMr = ({
   project_id,
   target_branch,
-}: MergeRequest): Rule[] => {
+}: MergeRequest): ProjectConfig => {
   // @ts-ignore
   const projects: ProjectConfig[] = RulesConfig.projects;
 
@@ -33,14 +33,17 @@ export const getRulesForMr = ({
   );
 
   if (!projectRules) {
-    return [];
+    return null;
   }
 
   // Find rules matching the target branch
-  return projectRules.rules.filter(
-    ({ branch }: Rule) =>
-      branch.includes(ALL_BRANCH_ALIAS) || branch.includes(target_branch)
-  );
+  return {
+    ...projectRules,
+    rules:  projectRules.rules.filter(
+      ({ branch }: Rule) =>
+        branch.includes(ALL_BRANCH_ALIAS) || branch.includes(target_branch)
+    )
+  }
 };
 
 const applyRule = (
