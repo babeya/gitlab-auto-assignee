@@ -9,74 +9,8 @@ import {
   isEventAnMrOpening,
 } from "./gitlab";
 
-import { applyRules } from "./rules";
+import { applyRules, getRulesForMr } from "./rules";
 
-console.log(applyRules(
-  [
-    { branch: ["all"], minLevel: 30, nbReviewers: 2 },
-    { branch: ["master"], minLevel: 40, nbReviewers: 2 },
-  ],
-  [
-    {
-      id: 1,
-      access_level: 10,
-    },
-    {
-      id: 2,
-      access_level: 30,
-    },
-    {
-      id: 4,
-      access_level: 30,
-    },
-    {
-      id: 5,
-      access_level: 30,
-    },
-    {
-      id: 6,
-      access_level: 30,
-    },
-    {
-      id: 7,
-      access_level: 40,
-    },
-    {
-      id: 7,
-      access_level: 40,
-    },
-    {
-      id: 8,
-      access_level: 40,
-    },
-    {
-      id: 9,
-      access_level: 40,
-    },
-    {
-      id: 10,
-      access_level: 10,
-    },
-    {
-      id: 11,
-      access_level: 10,
-    },
-    {
-      id: 12,
-      access_level: 40,
-    },
-    {
-      id: 13,
-      access_level: 50,
-    },
-    {
-      id: 15,
-      access_level: 50,
-    },
-  ]
-));
-
-/*
 // 1 - Get and parse the event
 const stdinBuffer = fs.readFileSync(0);
 const gitLabEvent = JSON.parse(stdinBuffer);
@@ -90,8 +24,11 @@ if (isEventAnMrOpening) {
   process.exit();
 }
 
-var projectId = gitLabEvent.project.id;
-var mrIid = gitLabEvent.object_attributes.iid;
+const project_id = gitLabEvent.project.id;
+const mrIid = gitLabEvent.object_attributes.iid;
+const target_branch = gitLabEvent.object_attributes.target_branch;
+
+const rules = getRulesForMr({ project_id, target_branch });
 
 // 3 - Check if the repos has a tag enabling auto assignment
 getGroupMembers({ groupId: config.groupId }, (body) => {
@@ -99,13 +36,12 @@ getGroupMembers({ groupId: config.groupId }, (body) => {
     return;
   }
 
-  const members = getRandomMembers(body, 30);
+  const members = applyRules(rules, body);
 
   if (members && members.length) {
     setMergeRequestAssignee(
-      { projectId, mrIid, assignees: members.map(({ id }) => id) },
+      { projectId: project_id, mrIid, assignees: members.map(({ id }) => id) },
       () => {}
     );
   }
 });
-*/
