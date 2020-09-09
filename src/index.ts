@@ -22,14 +22,16 @@ try {
   // 6 - Assign merge request
 
   // 2 - If it's not a new mergeRequest - Exit
-  if (isEventAnMrOpening(gitLabEvent)) {
+  if (!isEventAnMrOpening(gitLabEvent)) {
     process.exit();
   }
 
+  // TODO: clean
   const project_id = gitLabEvent.project.id;
   const mrIid = gitLabEvent.object_attributes.iid;
   const target_branch = gitLabEvent.object_attributes.target_branch;
 
+  // TODO: rename 
   const rules = getRulesForMr({ project_id, target_branch });
 
   // 3 - Check if the repos has a tag enabling auto assignment
