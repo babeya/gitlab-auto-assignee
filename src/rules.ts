@@ -59,7 +59,6 @@ const applyRule = (
       membersLeft = membersLeft.splice(indexToRemove, 1);
     }
   });
-  console.log(selectedMembers);
 
   return [selectedMembers, members];
 };

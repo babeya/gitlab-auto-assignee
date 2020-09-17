@@ -5,7 +5,6 @@ import config from "../config";
 import {
   setMergeRequestAssignee,
   getGroupMembers,
-  getRandomMembers,
   isEventAnMrOpening,
 } from "./gitlab";
 
@@ -44,7 +43,7 @@ try {
     const members = applyRules(
       rules.rules,
       body.filter(({ id }) => {
-        id !== config.botId;
+        id !== config.userId;
       })
     );
 
