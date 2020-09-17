@@ -106,5 +106,5 @@ dist
 # Bin folder 
 bin/
 
-config.js
-rules.js
+config.ts
+rules.ts

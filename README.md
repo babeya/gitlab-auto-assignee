@@ -1,4 +1,4 @@
-# gitlab-autoreviewer
+# gitlab-auto-assignee
 
 Auto asign randomly a reviewer to a merge request
 
@@ -7,7 +7,7 @@ Auto asign randomly a reviewer to a merge request
 ### 1 - Clone the repository on your gitlab server
 
 ```bash
-  git clone git@github.com:babeya/gitlab-autoreviewer.git
+  git clone git@github.com:babeya/gitlab-auto-assignee.git
 ```
 
 ### 2 - Install dependencies
@@ -37,16 +37,16 @@ yarn build
 
 ### 5 - Copy the hook inside the gitlab folder
 
-Dependending of your installation you need to copy the file previously compiled (/bin/autoreviewer) in the gitlab filehook folder.
+Dependending of your installation you need to copy the file previously compiled (/bin/auto-assignee) in the gitlab filehook folder.
 
 * Installation from source
 
 ```bash
-  sudo cp ./bin/autoreviewer /home/git/gitlab/filehook/
+  sudo cp ./bin/auto-assignee /home/git/gitlab/filehook/
 ```
 
 * Omnibus install
 
 ```bash
-  sudo cp ./bin/autoreviewer /opt/gitlab/embedded/service/gitlab-rails/file_hooks
+  sudo cp ./bin/auto-assignee /opt/gitlab/embedded/service/gitlab-rails/file_hooks
 ```

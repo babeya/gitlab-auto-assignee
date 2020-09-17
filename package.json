@@ -1,15 +1,15 @@
 {
-  "name": "gitlab-autoreviewer",
+  "name": "gitlab-auto-assignee",
   "version": "1.0.0",
-  "description": "Auto asign gitlab mr based on avaiblable reviewer",
+  "description": "Auto asign gitlab mr",
   "main": "index.js",
-  "repository": "https://github.com/babeya/gitlab-autoreviewer.git",
+  "repository": "https://github.com/babeya/gitlab-auto-assignee.git",
   "author": "Arthur BABEY <git@ababey.com>",
   "license": "MIT",
   "private": false,
   "scripts": {
     "build-typescript": "tsc",
-    "package": "pkg ./dist/src/index.js --output ./bin/autoreviewer",
+    "package": "pkg ./dist/src/index.js --output ./bin/auto-assignee",
     "build": "yarn build-typescript; yarn package"
   },
   "dependencies": {
