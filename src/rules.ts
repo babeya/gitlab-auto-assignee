@@ -15,7 +15,7 @@ type ProjectConfig = {
 
 type Rule = {
   branch: (string | "All")[];
-  minLevel: AccessLevel; // TODO use access level
+  minLevel: AccessLevel;
   nbReviewers: number;
 };
 
@@ -24,7 +24,7 @@ const ALL_BRANCH_ALIAS = "All";
 export const getRulesForMr = ({
   project_id,
   target_branch,
-}: MergeRequest): ProjectConfig => {
+}: MergeRequest): ProjectConfig | null => {
   // @ts-ignore
   const projects: ProjectConfig[] = RulesConfig.projects;
 
@@ -39,11 +39,11 @@ export const getRulesForMr = ({
   // Find rules matching the target branch
   return {
     ...projectRules,
-    rules:  projectRules.rules.filter(
+    rules: projectRules.rules.filter(
       ({ branch }: Rule) =>
         branch.includes(ALL_BRANCH_ALIAS) || branch.includes(target_branch)
-    )
-  }
+    ),
+  };
 };
 
 const applyRule = (
