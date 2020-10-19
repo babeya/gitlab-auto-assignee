@@ -5,18 +5,16 @@ const bodyparser = require('body-parser');
 // TODO: env
 const port = 3000;
 
-/*
-import config from "../config";
+import config from '../config';
 
 import {
   setMergeRequestAssignee,
   getGroupMembers,
-  isEventAnMrOpening,
-} from "./gitlab";
+  //isEventAnMrOpening,
+} from './gitlab';
 
-import { applyRules, getRulesForMr } from "./rules";
-import debug from "./debug";
-*/
+import { applyRules, getRulesForMr } from './rules';
+import debug from './debug';
 
 const app = express();
 
@@ -24,22 +22,7 @@ app.use(bodyparser.json());
 
 app.post('/mr', (req, res) => {
   console.log('helloow');
-  console.log(req.body);
-  res.json('ok');
-});
-
-app.listen(port, () => {
-  console.log(`Gitlab autoreviewer listening at http://localhost:${port}`);
-});
-
-/*
-try {
-  const stdinBuffer = fs.readFileSync(0);
-  const gitLabEvent = JSON.parse(stdinBuffer);
-
-  if (!isEventAnMrOpening(gitLabEvent)) {
-    process.exit();
-  }
+  const gitLabEvent = req.body;
 
   const project_id = gitLabEvent.project.id;
   const mrIid = gitLabEvent.object_attributes.iid;
@@ -47,11 +30,15 @@ try {
 
   const rules = getRulesForMr({ project_id, target_branch });
 
+  console.log(rules);
+
   if (!rules) {
     process.exit();
   }
 
   getGroupMembers({ groupId: rules.groupId }, (body) => {
+    console.log(body);
+
     if (!body || !body.length) {
       return;
     }
@@ -62,6 +49,8 @@ try {
         id !== config.userId;
       })
     );
+
+    console.log(members);
 
     if (members && members.length) {
       setMergeRequestAssignee(
@@ -74,6 +63,17 @@ try {
       );
     }
   });
+
+  res.json('ok');
+});
+
+app.listen(port, () => {
+  console.log(`Gitlab autoreviewer listening at http://localhost:${port}`);
+});
+
+/*
+
+  
 } catch (error) {
   debug(error.message || error.toString());
 }
