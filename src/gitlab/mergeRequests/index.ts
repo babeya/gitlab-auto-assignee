@@ -1,6 +1,6 @@
-import { get, put } from "../../utils";
+import { get, put } from '../../utils';
 
-import { ApprovalRule, Approver } from "../types";
+import { ApprovalRule, Approver } from '../types';
 
 type MrPathParams = {
   projectId: number;

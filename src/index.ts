@@ -1,5 +1,11 @@
-const fs = require("fs");
+const fs = require('fs');
+const express = require('express');
+const bodyparser = require('body-parser');
 
+// TODO: env
+const port = 3000;
+
+/*
 import config from "../config";
 
 import {
@@ -10,7 +16,23 @@ import {
 
 import { applyRules, getRulesForMr } from "./rules";
 import debug from "./debug";
+*/
 
+const app = express();
+
+app.use(bodyparser.json());
+
+app.post('/mr', (req, res) => {
+  console.log('helloow');
+  console.log(req.body);
+  res.json('ok');
+});
+
+app.listen(port, () => {
+  console.log(`Gitlab autoreviewer listening at http://localhost:${port}`);
+});
+
+/*
 try {
   const stdinBuffer = fs.readFileSync(0);
   const gitLabEvent = JSON.parse(stdinBuffer);
@@ -55,3 +77,4 @@ try {
 } catch (error) {
   debug(error.message || error.toString());
 }
+*/

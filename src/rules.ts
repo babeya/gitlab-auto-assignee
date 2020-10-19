@@ -1,6 +1,6 @@
-import RulesConfig from "../rules";
-import { Member, AccessLevel } from "./gitlab/types";
-import { getRandomMembers } from "./gitlab";
+import RulesConfig from '../rules';
+import { Member, AccessLevel } from './gitlab/types';
+import { getRandomMembers } from './gitlab';
 
 type MergeRequest = {
   target_branch: string;
@@ -14,12 +14,12 @@ type ProjectConfig = {
 };
 
 type Rule = {
-  branch: (string | "All")[];
+  branch: (string | 'All')[];
   minLevel: AccessLevel;
   nbReviewers: number;
 };
 
-const ALL_BRANCH_ALIAS = "All";
+const ALL_BRANCH_ALIAS = 'All';
 
 export const getRulesForMr = ({
   project_id,

@@ -1,7 +1,7 @@
-const request = require("request");
+const request = require('request');
 
-import config from "../config";
-import debug from "./debug";
+import config from '../config';
+import debug from './debug';
 
 const getFullApiUrl = (path: string) =>
   `${config.gitlabUrl}/api/v4${path}?private_token=${config.token}`;
