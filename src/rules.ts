@@ -1,22 +1,7 @@
-import { Member, AccessLevel } from './gitlab/types';
 import { getRandomMembers } from './gitlab';
 
-type MergeRequest = {
-  target_branch: string;
-  project_id: number;
-};
+import { MergeRequest, Member, ProjectConfig, Rule } from './types';
 
-type ProjectConfig = {
-  projectIds: number[];
-  rules: Rule[];
-  groupId: number;
-};
-
-type Rule = {
-  branch: (string | 'All')[];
-  minLevel: AccessLevel;
-  nbReviewers: number;
-};
 
 const ALL_BRANCH_ALIAS = 'All';
 

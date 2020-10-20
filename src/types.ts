@@ -18,3 +18,24 @@ export type ApprovalRule = {
   eligible_approvers: Approver[];
   approvals_required: number;
 };
+
+export type MergeRequest = {
+  target_branch: string;
+  project_id: number;
+};
+
+export type RulesConfig = {
+  projects: ProjectConfig[];
+};
+
+export type ProjectConfig = {
+  projectIds: number[];
+  rules: Rule[];
+  groupId: number;
+};
+
+export type Rule = {
+  branch: (string | 'All')[];
+  minLevel: AccessLevel;
+  nbReviewers: number;
+};

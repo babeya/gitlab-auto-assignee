@@ -1,4 +1,3 @@
-const fs = require('fs');
 const express = require('express');
 const bodyparser = require('body-parser');
 
@@ -21,14 +20,13 @@ const app = express();
 app.use(bodyparser.json());
 
 app.post('/mr', (req, res) => {
-  console.log('helloow');
   const gitLabEvent = req.body;
 
   const project_id = gitLabEvent.project.id;
   const mrIid = gitLabEvent.object_attributes.iid;
   const target_branch = gitLabEvent.object_attributes.target_branch;
 
-  const rules = getRulesForMr({ project_id, target_branch }, rulesConfig);
+  const rules = getRulesForMr({ project_id, target_branch }, rulesConfig.projects);
 
   if (!rules) {
     process.exit();
@@ -64,11 +62,3 @@ app.post('/mr', (req, res) => {
 app.listen(port, () => {
   console.log(`Gitlab autoreviewer listening at http://localhost:${port}`);
 });
-
-/*
-
-  
-} catch (error) {
-  debug(error.message || error.toString());
-}
-*/
