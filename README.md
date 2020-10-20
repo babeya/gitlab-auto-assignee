@@ -1,8 +1,8 @@
+![Node.js CI](https://github.com/babeya/gitlab-auto-assignee/workflows/Node.js%20CI/badge.svg)
+
 # gitlab-auto-assignee
 
 Auto assign randomly a user to a merge request
-
-![Node.js CI](https://github.com/babeya/gitlab-auto-assignee/workflows/Node.js%20CI/badge.svg)
 
 ## Getting started
 
