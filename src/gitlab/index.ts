@@ -1,12 +1,12 @@
-export { getGroupMembers, getRandomMembers } from "./groups";
+export { getGroupMembers, getRandomMembers } from './groups';
 export {
   getEligibleApproversFromRules,
   getMrApprovalRules,
   setMergeRequestAssignee,
-} from "./mergeRequests";
+} from './mergeRequests';
 
-const MR_EVENT = ["merge_request"];
-const MR_OPEN_ACTION = "open";
+const MR_EVENT = ['merge_request'];
+const MR_OPEN_ACTION = 'open';
 
 export const isEventAnMrOpening = (evt: any) =>
   MR_EVENT.includes(evt.event_type) &&

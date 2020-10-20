@@ -10,6 +10,7 @@ module.exports = {
       },
     ],
   ],
+  modulePathIgnorePatterns: ["<rootDir>/dist/"],
   coverageThreshold: {
     global: {
       statements: 50,

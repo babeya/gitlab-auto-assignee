@@ -47,6 +47,14 @@ describe('applyRules', () => {
   ];
 
   it('return a set of random members from the members list according to the rules', () => {
-    expect(applyRules(baseRules.projects[0].rules, baseMembers).length).toEqual(4);
+    expect(applyRules(baseRules.projects[0].rules, baseMembers).length).toEqual(
+      4
+    );
+  });
+
+  it('return as much members as possible if there is not enough members matching rules', () => {
+    expect(
+      applyRules(baseRules.projects[0].rules, baseMembers.slice(0, 1)).length
+    ).toEqual(1);
   });
 });

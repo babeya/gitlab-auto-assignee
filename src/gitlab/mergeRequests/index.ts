@@ -49,7 +49,7 @@ export const getEligibleApproversFromRules = (rules: ApprovalRule[]) =>
     }
 
     return [...acc, ...selectedApprover];
-  }, []); 
+  }, []);
 
 type SetAssigneeParams = {
   assignees: number[];

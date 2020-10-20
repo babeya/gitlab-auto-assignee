@@ -14,7 +14,8 @@
     "watch-node": "nodemon dist/src/index.js",
     "start": "node dist/src/index.js",
     "test": "npx jest --runInBand --detectOpenHandles --colors --verbose --reporters=default",
-    "test:ci": "npx jest --ci --runInBand --silent --colors --coverage"
+    "test:ci": "npx jest --ci --runInBand --silent --colors --coverage",
+    "check-prettier": "prettier ./src -c"
   },
   "dependencies": {
     "@types/node": "^14.6.0",

@@ -42,11 +42,11 @@ const applyRule = (
   selectedMembers.forEach((selectedMember) => {
     const indexToRemove = membersLeft.indexOf(selectedMember);
     if (indexToRemove !== -1) {
-      membersLeft = membersLeft.splice(indexToRemove, 1);
+      membersLeft.splice(indexToRemove, 1);
     }
   });
 
-  return [selectedMembers, members];
+  return [selectedMembers, membersLeft];
 };
 
 export const applyRules = (rules: Rule[], members: Member[]): Member[] => {
@@ -58,6 +58,6 @@ export const applyRules = (rules: Rule[], members: Member[]): Member[] => {
     const [newSelectedMembers, membersLeft] = applyRule(rule, memberAcc);
     memberAcc = membersLeft;
 
-    return acc.concat(newSelectedMembers);
+    return [...acc, ...newSelectedMembers];
   }, []);
 };

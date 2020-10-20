@@ -26,7 +26,7 @@ app.post('/mr', (req, res) => {
   const mrIid = gitLabEvent.object_attributes.iid;
   const target_branch = gitLabEvent.object_attributes.target_branch;
 
-  const rules = getRulesForMr({ project_id, target_branch }, rulesConfig.projects);
+  const rules = getRulesForMr({ project_id, target_branch }, rulesConfig);
 
   if (!rules) {
     process.exit();
