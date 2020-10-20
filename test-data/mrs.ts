@@ -1,4 +1,40 @@
-const MR = {
+import { GitlabMr } from '../src/types';
+
+export const UnknownMr: GitlabMr = {
+  object_kind: 'merge_request',
+  event_type: 'merge_request',
+  project: {
+    id: 10,
+    name: 'unknown',
+  },
+  object_attributes: {
+    author_id: 1,
+    id: 1,
+    iid: 1,
+    target_branch: 'master',
+  },
+};
+
+export const TestMr1: GitlabMr = {
+  object_kind: 'merge_request',
+  event_type: 'merge_request',
+  project: {
+    id: 1,
+    name: 'test',
+  },
+  object_attributes: {
+    author_id: 1,
+    id: 1,
+    iid: 1,
+    target_branch: 'master',
+  },
+};
+
+/*
+
+Mr from gitlab for reference 
+
+export const MR: GitlabMr = {
   object_kind: 'merge_request',
   event_type: 'merge_request',
   user: {
@@ -128,3 +164,5 @@ const MR = {
     homepage: 'https://gitlab.com/test/testproject',
   },
 };
+
+*/

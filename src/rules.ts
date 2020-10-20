@@ -1,15 +1,20 @@
 import { getRandomMembers } from './gitlab';
 
-import { MergeRequest, Member, ProjectConfig, Rule } from './types';
-
+import {
+  MergeRequest,
+  Member,
+  RulesConfig,
+  Rule,
+  ProjectConfig,
+} from './types';
 
 const ALL_BRANCH_ALIAS = 'All';
 
 export const getRulesForMr = (
   { project_id, target_branch }: MergeRequest,
-  projects: ProjectConfig[]
+  rules: RulesConfig
 ): ProjectConfig | null => {
-  const projectRules = projects.find(({ projectIds }: ProjectConfig) =>
+  const projectRules = rules.projects.find(({ projectIds }: ProjectConfig) =>
     projectIds.includes(project_id)
   );
 

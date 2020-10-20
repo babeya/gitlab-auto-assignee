@@ -1,6 +1,6 @@
 import { get, getRandomElementFromArray } from '../../utils';
 
-import { Member, AccessLevel } from '../types';
+import { Member, AccessLevel } from '../../types';
 
 type GroupsPathParams = {
   groupId: number;

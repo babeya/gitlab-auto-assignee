@@ -39,3 +39,18 @@ export type Rule = {
   minLevel: AccessLevel;
   nbReviewers: number;
 };
+
+export type GitlabMr = {
+  object_kind: 'merge_request';
+  event_type: 'merge_request';
+  project: {
+    id: number;
+    name: string;
+  };
+  object_attributes: {
+    author_id: number;
+    id: number;
+    iid: number;
+    target_branch: string;
+  };
+};
