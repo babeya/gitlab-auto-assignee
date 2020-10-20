@@ -27,6 +27,6 @@ jobs:
     - name: Install dependencies
       run: yarn
     - name: Prettier
-      run: yarn prettier
+      run: yarn check-prettier
     - name: Test
       run: yarn test:ci
