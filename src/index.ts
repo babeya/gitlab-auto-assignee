@@ -6,6 +6,7 @@ const bodyparser = require('body-parser');
 const port = 3000;
 
 import config from '../config';
+import rulesConfig from '../rules';
 
 import {
   setMergeRequestAssignee,
@@ -14,7 +15,6 @@ import {
 } from './gitlab';
 
 import { applyRules, getRulesForMr } from './rules';
-import debug from './debug';
 
 const app = express();
 
@@ -28,17 +28,13 @@ app.post('/mr', (req, res) => {
   const mrIid = gitLabEvent.object_attributes.iid;
   const target_branch = gitLabEvent.object_attributes.target_branch;
 
-  const rules = getRulesForMr({ project_id, target_branch });
-
-  console.log(rules);
+  const rules = getRulesForMr({ project_id, target_branch }, rulesConfig);
 
   if (!rules) {
     process.exit();
   }
 
   getGroupMembers({ groupId: rules.groupId }, (body) => {
-    console.log(body);
-
     if (!body || !body.length) {
       return;
     }
@@ -49,8 +45,6 @@ app.post('/mr', (req, res) => {
         id !== config.userId;
       })
     );
-
-    console.log(members);
 
     if (members && members.length) {
       setMergeRequestAssignee(
