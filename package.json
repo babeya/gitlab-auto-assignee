@@ -9,11 +9,10 @@
   "private": false,
   "scripts": {
     "build": "tsc",
-    "init-config": "cp ./config.ts.dist config.ts; cp ./rules.ts.dist rules.ts",
     "watch": "concurrently --kill-others yarn:watch-*",
     "watch-typescript": "tsc -w",
-    "watch-node": "nodemon dist/src/index.js",
-    "start": "node dist/src/index.js",
+    "watch-node": "nodemon dist/index.js",
+    "start": "node dist/index.js",
     "test": "npx jest --runInBand --detectOpenHandles --colors --verbose --reporters=default",
     "test:ci": "npx jest --ci --runInBand --silent --colors --coverage",
     "check-prettier": "prettier ./src -c"
