@@ -19,7 +19,11 @@ To work properly, gitlab-auto-assignee need some environements variables to be s
 
 ## 2 Installation
 
-First of all, you have to configure a webhook on repositories on which you want gitlab-auto-assignee to work on. The webhook url will be `$yourUrl/mr`, where \$yourUrl will be the url on which you will deploy the app. Check Merge requests events as trigger of the webhook. All other events are ignored.
+First of all, you have to configure a webhook on repositories on which you want gitlab-auto-assignee to work on.
+
+The webhook url is `$yourUrl/mr`, where \$yourUrl is the url on which you will deploy the app.
+
+Check `Merge requests events` as trigger of the webhook. All other events are ignored.
 
 You can find more informations about gitlab webhook [here](https://docs.gitlab.com/ee/user/project/integrations/webhooks.html)
 
