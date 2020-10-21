@@ -1,3 +1,5 @@
+const request = require('request');
+
 import { getRandomMembers } from './gitlab';
 
 import {
@@ -60,4 +62,11 @@ export const applyRules = (rules: Rule[], members: Member[]): Member[] => {
 
     return [...acc, ...newSelectedMembers];
   }, []);
+};
+
+export const getRulesFile = (url: string, callback) => {
+  request.get({ url }, (err, _, body) => {
+    console.log(err, body);
+    //callback(body);
+  });
 };

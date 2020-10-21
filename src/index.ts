@@ -10,10 +10,10 @@ import rulesConfig from '../rules';
 import {
   setMergeRequestAssignee,
   getGroupMembers,
-  //isEventAnMrOpening,
+  isEventAnMrOpening,
 } from './gitlab';
 
-import { applyRules, getRulesForMr } from './rules';
+import { applyRules, getRulesForMr, getRulesFile } from './rules';
 
 const app = express();
 
@@ -22,6 +22,10 @@ app.use(bodyparser.json());
 app.post('/mr', (req, res) => {
   const gitLabEvent = req.body;
 
+  if (!isEventAnMrOpening(gitLabEvent)) {
+    res.json({ status: 'ok' });
+  }
+
   const project_id = gitLabEvent.project.id;
   const mrIid = gitLabEvent.object_attributes.iid;
   const target_branch = gitLabEvent.object_attributes.target_branch;
@@ -29,7 +33,7 @@ app.post('/mr', (req, res) => {
   const rules = getRulesForMr({ project_id, target_branch }, rulesConfig);
 
   if (!rules) {
-    process.exit();
+    res.json({ status: 'ok' });
   }
 
   getGroupMembers({ groupId: rules.groupId }, (body) => {
@@ -62,3 +66,7 @@ app.post('/mr', (req, res) => {
 app.listen(port, () => {
   console.log(`Gitlab autoreviewer listening at http://localhost:${port}`);
 });
+
+getRulesFile(
+  'https://gitlab.com/babeya/test-rule-autoasign/-/raw/master/rules.json'
+);
