@@ -1,4 +1,4 @@
-import { get, put } from '../../utils';
+import { gitlabApiGet, gitlabApiPut } from '../../utils';
 
 import { ApprovalRule, Approver } from '../../types';
 
@@ -30,12 +30,8 @@ const getRandomApprover = (
   ];
 };
 
-export const getMrApprovalRules = (
-  params: MrPathParams,
-  callback: (body?: ApprovalRule[]) => void
-) => {
-  get(getMrApprovalRulesPath(params), callback);
-};
+export const getMrApprovalRules = (params: MrPathParams) =>
+  gitlabApiGet<ApprovalRule[]>(getMrApprovalRulesPath(params));
 
 export const getEligibleApproversFromRules = (rules: ApprovalRule[]) =>
   rules.reduce((acc: number[], { approvals_required, eligible_approvers }) => {
@@ -55,9 +51,8 @@ type SetAssigneeParams = {
   assignees: number[];
 } & MrPathParams;
 
-export const setMergeRequestAssignee = (
-  { assignees, ...rest }: SetAssigneeParams,
-  callback
-) => {
-  put(getMrPath(rest), { assignee_ids: assignees }, callback);
-};
+export const setMergeRequestAssignee = ({
+  assignees,
+  ...rest
+}: SetAssigneeParams) =>
+  gitlabApiPut(getMrPath(rest), { assignee_ids: assignees });

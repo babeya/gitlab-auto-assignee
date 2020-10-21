@@ -5,7 +5,6 @@ const bodyparser = require('body-parser');
 const port = 3000;
 
 import config from '../config';
-import rulesConfig from '../rules';
 
 import {
   setMergeRequestAssignee,
@@ -19,54 +18,51 @@ const app = express();
 
 app.use(bodyparser.json());
 
-app.post('/mr', (req, res) => {
+app.post('/mr', async (req, res) => {
+  res.json('ok');
+
   const gitLabEvent = req.body;
 
   if (!isEventAnMrOpening(gitLabEvent)) {
-    res.json({ status: 'ok' });
+    return;
   }
 
   const project_id = gitLabEvent.project.id;
   const mrIid = gitLabEvent.object_attributes.iid;
   const target_branch = gitLabEvent.object_attributes.target_branch;
 
+  const rulesConfig = await getRulesFile(
+    'https://gitlab.com/babeya/test-rule-autoasign/-/raw/master/rules.json'
+  );
+
   const rules = getRulesForMr({ project_id, target_branch }, rulesConfig);
 
   if (!rules) {
-    res.json({ status: 'ok' });
+    return;
   }
 
-  getGroupMembers({ groupId: rules.groupId }, (body) => {
-    if (!body || !body.length) {
-      return;
-    }
+  const members = await getGroupMembers({ groupId: rules.groupId });
 
-    const members = applyRules(
-      rules.rules,
-      body.filter(({ id }) => {
-        id !== config.userId;
-      })
-    );
+  if (!members || !members.length) {
+    return;
+  }
 
-    if (members && members.length) {
-      setMergeRequestAssignee(
-        {
-          projectId: project_id,
-          mrIid,
-          assignees: members.map(({ id }) => id),
-        },
-        () => {}
-      );
-    }
-  });
+  const selectedMembers = applyRules(
+    rules.rules,
+    members.filter(({ id }) => {
+      id !== config.userId;
+    })
+  );
 
-  res.json('ok');
+  if (members && members.length) {
+    setMergeRequestAssignee({
+      projectId: project_id,
+      mrIid,
+      assignees: selectedMembers.map(({ id }) => id),
+    });
+  }
 });
 
 app.listen(port, () => {
   console.log(`Gitlab autoreviewer listening at http://localhost:${port}`);
 });
-
-getRulesFile(
-  'https://gitlab.com/babeya/test-rule-autoasign/-/raw/master/rules.json'
-);

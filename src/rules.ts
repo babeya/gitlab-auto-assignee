@@ -1,4 +1,4 @@
-const request = require('request');
+import fetch from 'node-fetch';
 
 import { getRandomMembers } from './gitlab';
 
@@ -64,9 +64,5 @@ export const applyRules = (rules: Rule[], members: Member[]): Member[] => {
   }, []);
 };
 
-export const getRulesFile = (url: string, callback) => {
-  request.get({ url }, (err, _, body) => {
-    console.log(err, body);
-    //callback(body);
-  });
-};
+export const getRulesFile = (url: string): Promise<RulesConfig> =>
+  fetch(url).then((res) => res.json());

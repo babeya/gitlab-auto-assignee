@@ -108,3 +108,5 @@ bin/
 
 config.ts
 rules.ts
+
+junit-TEST.xml
