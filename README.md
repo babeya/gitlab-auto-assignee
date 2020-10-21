@@ -4,45 +4,39 @@
 
 Auto assign randomly a user to a merge request
 
-## Getting started
+## Requirements
 
-### 1 - Clone the repository on your gitlab server
+You need to set environements variables for the
+
+```.env
+  // url of the gitlab instance
+  GAA_API_URL=https://gitlab.com
+  // PAT with api access
+  GAA_API_TOKEN=6qMyjkyDWrUmrudRFTxL
+  // User id associated with the PAT to avoid assigning him
+  GAA_USER_ID=1
+  // link to the rules.json file
+  GAA_RULES_URL=https://gitlab.com/babeya/test-rule-autoasign/-/raw/master/rules.json
+  // Port on which the hook listen
+  GAA_PORT=4000
+  // Verify token used with gitlab webhooks
+  GAA_VERIFY_TOKEN
+```
+
+## Install
+
+### 1 - From sources
 
 ```bash
   git clone git@github.com:babeya/gitlab-auto-assignee.git
+  yarn install
+  yarn start
 ```
 
 ### 2 - Install dependencies
 
 ```bash
   yarn install
-```
-
-### 3 - Update config
-
-Copy and fill config files :
-
-```bash
-cp rules.ts.dist rules.ts && cp config.ts.dist config.ts
-```
-
-### 4 - Edit hook configuration
-
-Open the previously created config.ts and fill the missing information.
-
-```typescript
-const config = {
-  // uri of your gitlab : https://my-gitlab.com
-  gitlabUrl: "",
-  // Token of the gitlab user associated to the hook. Checkout https://docs.gitlab.com/ee/api/#impersonation-tokens for more informations
-  token: "",
-  // id of the gitalb user
-  userId: 0
-  // Enable logging of error and actions done by the script in a file
-  debug: false,
-  // Path to the log file
-  debugOuput: "/tmp/debugOutput.txt",
-};
 ```
 
 ### 5 - Setup rules
@@ -87,25 +81,3 @@ To learn more about gitlab access levels you can check this [page](https://docs.
 - 30 -> Developer
 - 20 -> Reporter
 - 10 -> Guest
-
-### 6 - Bundle an excutable
-
-```bash
-yarn build
-```
-
-### 7 - Copy the hook inside the gitlab folder
-
-Dependending of your installation you need to copy the file previously compiled (/bin/auto-assignee) in the gitlab filehook folder.
-
-- Installation from source
-
-```bash
-  sudo cp ./bin/auto-assignee /home/git/gitlab/filehook/
-```
-
-- Omnibus install
-
-```bash
-  sudo cp ./bin/auto-assignee /opt/gitlab/embedded/service/gitlab-rails/file_hooks
-```
