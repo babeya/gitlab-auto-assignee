@@ -4,8 +4,10 @@ const bodyparser = require('body-parser');
 import config from './config';
 
 import {
+  GITLAB_TOKEN_HEADER_FIELD,
   setMergeRequestAssignee,
   getGroupMembers,
+  verifyGitlabToken,
   isEventAnMrOpening,
 } from './gitlab';
 
@@ -19,11 +21,16 @@ app.post('/mr', async (req, res) => {
   try {
     res.json('ok');
 
-    const gitLabEvent = req.body;
-
-    if (!isEventAnMrOpening(gitLabEvent)) {
+    if (!verifyGitlabToken(req.header(GITLAB_TOKEN_HEADER_FIELD))) {
       return;
     }
+
+    const gitLabEvent = req.body;
+
+    /* TODO: FIX
+    if (!isEventAnMrOpening(gitLabEvent)) {
+      return;
+    }*/
 
     const project_id = gitLabEvent.project.id;
     const mrIid = gitLabEvent.object_attributes.iid;
