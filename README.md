@@ -6,13 +6,17 @@ Auto assign randomly a user to a merge request
 
 ## Requirements
 
-You need to set environements variables for the
+To work properly, gitlab-auto-assignee need some environements variables to be setup. You can find the list below :
+
+| Name          | Req.               | Ini. Val. | Description                                                                                                                                                                                |
+| ------------- | ------------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| GAA_API_TOKEN | :heavy_check_mark: |           | Token used by the hook to access the api, it needs api rights. Also, the user associated to the token need to have correct access to repository and groups which it will be interact with. |
 
 ```.env
   // url of the gitlab instance
   GAA_API_URL=https://gitlab.com
   // PAT with api access
-  GAA_API_TOKEN=6qMyjkyDWrUmrudRFTxL
+  =6qMyjkyDWrUmrudRFTxL
   // User id associated with the PAT to avoid assigning him
   GAA_USER_ID=1
   // link to the rules.json file
