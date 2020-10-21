@@ -1,5 +1,5 @@
 FROM node:14
-MAINTAINER babeya
+LABEL org.opencontainers.image.source https://github.com/babeya/gitlab-auto-assignee
 
 COPY . /app
 
