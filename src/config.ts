@@ -1,5 +1,5 @@
 const config = {
-  gitlabUrl: process.env.GAA_API_URL || 'https://gitlab.com',
+  gitlabUrl: process.env.GAA_API_URL || 'https://gitlab.com',
   token: process.env.GAA_API_TOKEN,
   userId: process.env.GAA_USER_ID,
   rulesFileUrl: process.env.GAA_RULES_URL,
