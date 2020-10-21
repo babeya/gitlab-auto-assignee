@@ -1,14 +1,12 @@
 const config = {
   // uri of your gitlab : https://my-gitlab.com
-  gitlabUrl: "",
+  gitlabUrl: process.env.GAA_API_URL,
   // Token of the gitlab user associated to the hook. Checkout https://docs.gitlab.com/ee/api/#impersonation-tokens for more informations
-  token: "",
-  // id of the gitalb user 
-  userId: 0,
-  // Enable logging of error and actions done by the script in a file
-  debug: false,
-  // Path to the log file
-  debugOuput: "/tmp/debugOutput.txt",
+  token: process.env.GAA_API_TOKEN,
+  // id of the gitalb user
+  userId: process.env.GAA_USER_ID,
+  rulesFileUrl: process.env.GAA_RULES_URL,
+  port: process.env.GAA_PORT,
 };
 
 export default config;

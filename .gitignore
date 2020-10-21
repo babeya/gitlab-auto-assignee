@@ -106,7 +106,4 @@ dist
 # Bin folder 
 bin/
 
-config.ts
-rules.ts
-
 junit-TEST.xml

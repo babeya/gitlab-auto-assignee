@@ -1,0 +1,9 @@
+{
+  "projects": [
+    {
+      "projectIds": [],
+      "groupId": 0,
+      "rules": [{ "branch": ["all"], "minLevel": 30, "nbReviewers": 2 }]
+    }
+  ]
+}

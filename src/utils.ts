@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-import config from '../config';
+import config from './config';
 
 const getFullApiUrl = (path: string) =>
   `${config.gitlabUrl}/api/v4${path}?private_token=${config.token}`;
