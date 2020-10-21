@@ -10,7 +10,7 @@ export {
 const MR_EVENT = ['merge_request'];
 const MR_OPEN_ACTION = 'open';
 
-export const GITLAB_TOKEN_HEADER_FIELD = "X-Gitlab-Token";
+export const GITLAB_TOKEN_HEADER_FIELD = 'X-Gitlab-Token';
 
 export const verifyGitlabToken = (token: string) =>
   token === config.verifyToken;

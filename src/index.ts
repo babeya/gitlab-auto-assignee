@@ -27,37 +27,42 @@ app.post('/mr', async (req, res) => {
 
     const gitLabEvent = req.body;
 
-    /* TODO: FIX
     if (!isEventAnMrOpening(gitLabEvent)) {
       return;
-    }*/
+    }
 
     const project_id = gitLabEvent.project.id;
     const mrIid = gitLabEvent.object_attributes.iid;
+    const authorId = gitLabEvent.object_attributes.author_id;
+
     const target_branch = gitLabEvent.object_attributes.target_branch;
 
     const rulesConfig = await getRulesFile(config.rulesFileUrl);
 
-    const rules = getRulesForMr({ project_id, target_branch }, rulesConfig);
+    const projectConfig = getRulesForMr(
+      { project_id, target_branch },
+      rulesConfig
+    );
 
-    if (!rules) {
+    if (!projectConfig?.rules?.length) {
       return;
     }
 
-    const members = await getGroupMembers({ groupId: rules.groupId });
+    const members = await getGroupMembers({ groupId: projectConfig.groupId });
 
     if (!members || !members.length) {
       return;
     }
 
     const selectedMembers = applyRules(
-      rules.rules,
-      members.filter(({ id }) => {
-        id !== Number(config.userId);
-      })
+      projectConfig.rules,
+      // Filters members to avoid asignating the bot user or the author
+      members.filter(
+        ({ id }) => id !== Number(config.userId) && id !== authorId
+      )
     );
 
-    if (members && members.length) {
+    if (selectedMembers && selectedMembers.length) {
       setMergeRequestAssignee({
         projectId: project_id,
         mrIid,
