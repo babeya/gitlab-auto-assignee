@@ -29,7 +29,9 @@ You can find more informations about gitlab webhook [here](https://docs.gitlab.c
 
 ### 2.1 From sources
 
-To build and install the hook from sources, you need to checkout the repository and build the project like a classique javascript module. Be sure to set all required environements variables in your bashrc or inline when using `yarn start`.
+To build and install the hook from sources, you need to checkout the repository and build the project like a classique javascript module.
+
+Be sure to set all required environements variables in your bashrc or inline when using `yarn start`.
 
 ```bash
   git clone git@github.com:babeya/gitlab-auto-assignee.git
@@ -47,7 +49,13 @@ There is a ready to use docker image available at ghcr.io/babeya/gitlab-auto-ass
 
 ## 3 Config file
 
-The config files is used to define which members and how many will be assigned to new merge requests. You can use [this file](https://github.com/babeya/gitlab-auto-assignee/blob/master/rules.json) as a base for your own. If you do, you have to add projectIds and the groupId coresponding to your needs. You can host the file where you want (a git repository works great), but you have to ensure access for the hook.
+The config files is used to define which members and how many will be assigned to new merge requests.
+
+You can use [this file](https://github.com/babeya/gitlab-auto-assignee/blob/master/rules.json) as a base for your own.
+
+If you do, you have to add projectIds and the groupId coresponding to your needs.
+
+You can host the file where you want (a git repository works great), but you have to ensure access for the hook.
 
 Below a more complete example :
 
